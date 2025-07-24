@@ -2,9 +2,9 @@ import { Box, Grid, Card, Image } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import bgimg from "@/assets/login.jpg";
-import add from "@/assets/add.jpg";
-import tra from "@/assets/tra.jpg";
-import view from "@/assets/view.jpg";
+import add from "@/assets/add.png";
+import tra from "@/assets/tra.png";
+import view from "@/assets/view.png";
 
 function Distributer() {
   const navigate = useNavigate();
