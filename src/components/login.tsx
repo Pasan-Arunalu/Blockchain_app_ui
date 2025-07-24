@@ -26,9 +26,11 @@ const Login = () => {
       const response = await axios.post("http://localhost:5000/login", data);
       const token = response.data.access_token;
       const role = response.data.role?.toLowerCase();
+      const name = response.data.name;
 
       localStorage.setItem("token", token);
       localStorage.setItem("role", role);
+      localStorage.setItem("name", name)
 
       toast.success("Login successful!");
 
