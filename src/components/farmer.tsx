@@ -42,12 +42,12 @@ function Farmer() {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((res) => {
-        console.log("✅ Transactions API Response:", res.data);
+        console.log("Transactions API Response:", res.data);
         setTransactions(res.data.transactions || []);
         setLoading(false);
       })
       .catch((err) => {
-        console.error("❌ Error fetching transactions:", err.response || err.message);
+        console.error("Error fetching transactions:", err.response || err.message);
         setLoading(false);
       });
   }, []);
@@ -195,7 +195,7 @@ function Farmer() {
                   display={"flex"}
                   gap={10}
                 >
-                  
+
                   <Text fontWeight={"bold"} fontSize="sm">
                     {tx.batch_id}
                   </Text>
