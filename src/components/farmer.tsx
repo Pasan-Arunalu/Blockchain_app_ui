@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddTransaction from "./addTransaction";
+import Transfer from "./transfer";
 
 import add from "@/assets/add.png";
 import tra from "@/assets/tra.png";
@@ -25,7 +26,7 @@ function Farmer() {
   const [pendingCount, setPendingCount] = useState<number>(0);
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
+  const [showForm] = useState(false);
 
   //Redirect if not farmer
   useEffect(() => {
@@ -33,7 +34,6 @@ function Farmer() {
     const token = localStorage.getItem("token");
     const userName = localStorage.getItem("name")?.toUpperCase();
 
-    console.log("Loaded Name:", userName);
     setUserName(userName || "");
 
     if (!token || role?.toLowerCase() !== "farmer") {
@@ -41,10 +41,9 @@ function Farmer() {
     }
   }, [navigate]);
 
-  //Fetch transactions + count + pending
+  //Fetch transactions + count + pending + transfer
   useEffect(() => {
     const token = localStorage.getItem("token");
-    console.log("🔑 Token being sent:", token);
 
     if (!token) return;
 
@@ -56,7 +55,6 @@ function Farmer() {
       axios.get("http://localhost:5000/my_pending_count", { headers }),
     ])
       .then(([txRes, countRes, pendingRes]) => {
-        console.log("Transactions API Response:", txRes.data);
         setTransactions(txRes.data.transactions || []);
         setTransactionCount(countRes.data.count);
         setPendingCount(pendingRes.data.count);
@@ -73,14 +71,7 @@ function Farmer() {
     <>
       {showForm && <AddTransaction />}
 
-      <Box
-        h={"100vh"}
-        w={"100%"}
-        display={"flex"}
-        flexDirection={"column"}
-        alignItems={"center"}
-        bg={"#d3d3d3ff"}
-      >
+      <Box h={"100vh"} w={"100%"} display={"flex"} flexDirection={"column"} alignItems={"center"} bg={"#d3d3d3ff"}>
         <Box h={"15%"} w={"80%"} display={"flex"} flexDirection={"column"} justifyContent={"center"} marginTop={"2rem"}>
           <Heading color={"black"} size={"5xl"}>
             Hello {userName} !
@@ -168,14 +159,31 @@ function Farmer() {
                 </Dialog.Root>
               </Box>
               <Box h={"100%"} w={"20%"} display={"flex"} alignItems={"center"}>
-                <Button variant={"outline"} h={"70%"} w={"85%"} borderRadius={"20px"} _hover={{ bg: "gray.200" }}>
-                  <Box h={"100%"} w={"100%"} alignItems={"center"} justifyContent={"center"} display={"flex"} gap={4}>
-                    <Image w={"30%"} src={tra}></Image>
-                    <Heading size={"3xl"} color={"black"} textAlign={"left"}>
-                      Transfer
-                    </Heading>
-                  </Box>
-                </Button>
+                <Dialog.Root size="full" placement="center" motionPreset="slide-in-bottom">
+                  <Dialog.Trigger asChild>
+                    <Button variant={"outline"} h={"70%"} w={"80%"} borderRadius={"20px"} _hover={{ bg: "gray.200" }}>
+                      <Box h={"100%"} w={"100%"} alignItems={"center"} justifyContent={"center"} display={"flex"}>
+                        <Image w={"30%"} src={tra}></Image>
+                        <Heading size={"3xl"} color={"black"} textAlign={"left"}>
+                          Transfer
+                        </Heading>
+                      </Box>
+                    </Button>
+                  </Dialog.Trigger>
+                  <Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Positioner>
+                      <Dialog.Content bg="rgba(189, 189, 189, 0.1)" backdropFilter="blur(10px)">
+                        <Box>
+                          <Transfer />
+                        </Box>
+                        <Dialog.CloseTrigger asChild>
+                          <CloseButton size="2xl" />
+                        </Dialog.CloseTrigger>
+                      </Dialog.Content>
+                    </Dialog.Positioner>
+                  </Portal>
+                </Dialog.Root>
               </Box>
             </Box>
           </Box>
