@@ -69,7 +69,7 @@ const Transfer = () => {
         <chakra.form onSubmit={handleSubmit(onSubmit)}>
           <VStack gap={4} align="stretch">
             <Box>
-              <Text fontWeight="bold" fontSize="2rem" color="black">
+              <Text fontWeight="bold" fontSize="2rem" color="black" h={"2rem"}>
                 New Transfer Request
               </Text>
               <Text fontSize="1rem" color="gray.600">
@@ -101,7 +101,7 @@ const Transfer = () => {
               </Text>
               <Input
                 color={"black"}
-                placeholder="Current owner"
+                value={fromEmail}
                 disabled
                 {...register("from_email", { required: true })}
               />
@@ -133,6 +133,7 @@ const Transfer = () => {
               fontWeight="bold"
               type="submit"
               loading={isSubmitting}
+              background="#8A8A8A"
             >
               Send Transfer Request
             </Button>

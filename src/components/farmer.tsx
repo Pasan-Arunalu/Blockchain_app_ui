@@ -203,13 +203,13 @@ function Farmer() {
                   Batch ID
                 </Text>
               </Box>
-              <Box w={"20%"}>
+              <Box w={"15.3%"}>
                 <Text fontSize="sm">Product</Text>
               </Box>
-              <Box w={"10.5%"}>
+              <Box w={"20%"}>
                 <Text fontSize="sm">user</Text>
               </Box>
-              <Box w={"20%"}>
+              <Box w={"15%"}>
                 <Text fontSize="sm">status</Text>
               </Box>
               <Box w={"20%"}>
@@ -245,13 +245,13 @@ function Farmer() {
                       {tx.batch_id}
                     </Text>
                   </Box>
-                  <Box w={"20%"}>
+                  <Box w={"15%"}>
                     <Text>{tx.product}</Text>
                   </Box>
-                  <Box w={"10%"}>
+                  <Box w={"20%"}>
                     <Text fontSize="sm">{tx.to}</Text>
                   </Box>
-                  <Box w={"20%"}>
+                  <Box w={"15%"}>
                     <Text fontSize="sm">{tx.status}</Text>
                   </Box>
                   <Box w={"20%"}>

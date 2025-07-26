@@ -3,11 +3,12 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { useEffect, useState } from "react";
 
 type TransactionFormInputs = {
   batch_id: string;
   product: string;
-  owner: string;
+  owner_email: string;
   location: string;
   temperature: number;
   humidity: number;
@@ -18,10 +19,19 @@ const AddTransaction = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<TransactionFormInputs>();
 
   const navigate = useNavigate();
+
+  const [ownerEmail, setOwnerEmail] = useState("");
+
+  useEffect(() => {
+    const email = localStorage.getItem("email") || "";
+    setOwnerEmail(email);
+    setValue("owner_email", email);
+  }, [setValue]);
 
   const onSubmit = async (data: TransactionFormInputs) => {
     try {
@@ -63,12 +73,12 @@ const AddTransaction = () => {
             <VStack gap={4} align="stretch">
               <Box display={"flex"}>
                 <Text fontWeight="bold" fontSize="2rem" color="black">
-                  New Blockchain Transaction
+                  Add a new Product/ Batch
                 </Text>
               </Box>
 
               <Text fontSize="1rem" color="black">
-                Fill in the transaction details
+                Fill in the transaction details to add a new product/ batch 
               </Text>
 
               {/* Batch ID */}
@@ -96,12 +106,8 @@ const AddTransaction = () => {
               {/* Owner */}
               <Field.Root color="black">
                 <Field.Label>Owner</Field.Label>
-                <Input
-                  placeholder="Current owner"
-                  _placeholder={{ color: "#6a6c6d" }}
-                  {...register("owner", { required: "Owner is required" })}
-                />
-                {errors.owner && <Text color="red.500">{errors.owner.message}</Text>}
+                <Input color="black" value={ownerEmail} disabled {...register("owner_email", { required: true })} />
+                {errors.owner_email && <Text color="red.500">{errors.owner_email.message}</Text>}
               </Field.Root>
 
               {/* Location */}
