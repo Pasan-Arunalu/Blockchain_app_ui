@@ -3,12 +3,9 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddTransaction from "./addTransaction";
-import Transfer from "./transfer";
 
-import add from "@/assets/add.png";
-import tra from "@/assets/tra.png";
+import pending2 from "@/assets/pending(2).png";
 import done from "@/assets/done.png";
-import pending from "@/assets/pending.png";
 
 interface Transaction {
   batch_id: string;
@@ -18,7 +15,7 @@ interface Transaction {
   date: string;
 }
 
-function Farmer() {
+function Retailer() {
   const navigate = useNavigate();
 
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -36,7 +33,7 @@ function Farmer() {
 
     setUserName(userName || "");
 
-    if (!token || role?.toLowerCase() !== "farmer") {
+    if (!token || role?.toLowerCase() !== "retailer") {
       navigate("/");
     }
   }, [navigate]);
@@ -84,6 +81,22 @@ function Farmer() {
           <Grid templateColumns="repeat(2, 1fr)" h={"100%"} w={"100%"} alignItems={"center"} justifyItems={"center"}>
             <Box h="100%" w={"100%"} display={"flex"}>
               <Box h={"100%"} w={"30%"} alignContent={"center"} justifyItems={"center"}>
+                <Image w={"40%"} src={pending2}></Image>
+              </Box>
+              <Box
+                h={"100%"}
+                w={"70%"}
+                display={"flex"}
+                flexDirection={"column"}
+                justifyContent={"center"}
+                color={"black"}
+              >
+                <Heading size={"2xl"}>Pending Acceptances</Heading>
+                <Heading size={"lg"}>{pendingCount}</Heading>
+              </Box>
+            </Box>
+            <Box h="100%" w={"100%"} display={"flex"}>
+              <Box h={"100%"} w={"30%"} alignContent={"center"} justifyItems={"center"}>
                 <Image w={"40%"} src={done}></Image>
               </Box>
               <Box
@@ -98,22 +111,6 @@ function Farmer() {
                 <Heading size={"lg"}>{transactionCount}</Heading>
               </Box>
             </Box>
-            <Box h="100%" w={"100%"} display={"flex"}>
-              <Box h={"100%"} w={"30%"} alignContent={"center"} justifyItems={"center"}>
-                <Image w={"40%"} src={pending}></Image>
-              </Box>
-              <Box
-                h={"100%"}
-                w={"70%"}
-                display={"flex"}
-                flexDirection={"column"}
-                justifyContent={"center"}
-                color={"black"}
-              >
-                <Heading size={"2xl"}>Pending Transactions</Heading>
-                <Heading size={"lg"}>{pendingCount}</Heading>
-              </Box>
-            </Box>
           </Grid>
         </Box>
         <Box h={"60%"} w={"80%"} marginTop={"2rem"} border={"solid 1px black"} borderRadius={"20px"}>
@@ -122,69 +119,6 @@ function Farmer() {
               <Heading alignSelf={"center"} size={"4xl"} color={"black"}>
                 Transactions
               </Heading>
-            </Box>
-            <Box display={"flex"} justifyContent={"right"}>
-              <Box h={"100%"} w={"20%"} display={"flex"} alignItems={"center"}>
-                <Dialog.Root size="full" placement="center" motionPreset="slide-in-bottom">
-                  <Dialog.Trigger asChild>
-                    <Button variant={"outline"} h={"70%"} w={"70%"} borderRadius={"20px"} _hover={{ bg: "gray.200" }}>
-                      <Box
-                        h={"100%"}
-                        w={"100%"}
-                        alignItems={"center"}
-                        justifyContent={"center"}
-                        display={"flex"}
-                        marginRight={"1rem"}
-                      >
-                        <Image w={"40%"} src={add}></Image>
-                        <Heading size={"3xl"} color={"black"} textAlign={"left"}>
-                          Add
-                        </Heading>
-                      </Box>
-                    </Button>
-                  </Dialog.Trigger>
-                  <Portal>
-                    <Dialog.Backdrop />
-                    <Dialog.Positioner>
-                      <Dialog.Content bg="rgba(189, 189, 189, 0.1)" backdropFilter="blur(10px)">
-                        <Box>
-                          <AddTransaction />
-                        </Box>
-                        <Dialog.CloseTrigger asChild>
-                          <CloseButton size="2xl" variant={"outline"} />
-                        </Dialog.CloseTrigger>
-                      </Dialog.Content>
-                    </Dialog.Positioner>
-                  </Portal>
-                </Dialog.Root>
-              </Box>
-              <Box h={"100%"} w={"20%"} display={"flex"} alignItems={"center"}>
-                <Dialog.Root size="full" placement="center" motionPreset="slide-in-bottom">
-                  <Dialog.Trigger asChild>
-                    <Button variant={"outline"} h={"70%"} w={"80%"} borderRadius={"20px"} _hover={{ bg: "gray.200" }}>
-                      <Box h={"100%"} w={"100%"} alignItems={"center"} justifyContent={"center"} display={"flex"} gap={3}>
-                        <Image w={"30%"} src={tra}></Image>
-                        <Heading size={"3xl"} color={"black"} textAlign={"left"}>
-                          Transfer
-                        </Heading>
-                      </Box>
-                    </Button>
-                  </Dialog.Trigger>
-                  <Portal>
-                    <Dialog.Backdrop />
-                    <Dialog.Positioner>
-                      <Dialog.Content bg="rgba(189, 189, 189, 0.1)" backdropFilter="blur(10px)">
-                        <Box>
-                          <Transfer />
-                        </Box>
-                        <Dialog.CloseTrigger asChild>
-                          <CloseButton size="2xl" variant={"outline"} />
-                        </Dialog.CloseTrigger>
-                      </Dialog.Content>
-                    </Dialog.Positioner>
-                  </Portal>
-                </Dialog.Root>
-              </Box>
             </Box>
           </Box>
           <Box h={"80%"} w={"100%"} p={"1rem"}>
@@ -269,4 +203,4 @@ function Farmer() {
   );
 }
 
-export default Farmer;
+export default Retailer;

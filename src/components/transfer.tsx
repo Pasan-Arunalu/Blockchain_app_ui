@@ -23,10 +23,8 @@ const Transfer = () => {
 
   const [fromEmail, setFromEmail] = useState("");
 
-  // Load email once when Transfer mounts
   useEffect(() => {
     const email = localStorage.getItem("email") || "";
-    console.log("Loaded email from localStorage:", email); // ✅ debug
     setFromEmail(email);
     setValue("from_email", email);
   }, [setValue]);
@@ -42,7 +40,6 @@ const Transfer = () => {
       });
 
       toast.success("Transfer request sent successfully!");
-      navigate("/farmer");
     } catch (error: any) {
       toast.error(error.response?.data?.error || "Failed to create transfer");
     }

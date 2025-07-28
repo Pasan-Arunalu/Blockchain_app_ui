@@ -5,6 +5,7 @@ import Login from "./components/login";
 import Register from "./components/register";
 import Farmer from "./components/farmer";
 import Distributer from "./components/distributer";
+import Retailer from "./components/reatailer";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
             <Route path="/register" element={<Register />} />
             <Route path="/farmer" element={<Farmer />} />
             <Route path="/distributor" element={<Distributer />} />
+            <Route path="/retailer" element={<Retailer />} />
           </Routes>
         </Router>
       </Box>
