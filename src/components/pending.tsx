@@ -4,7 +4,7 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-interface Transaction {
+interface Transaction {  
   batch_id: string;
   product: string;
   to: string;
@@ -13,6 +13,7 @@ interface Transaction {
 }
 
 interface TransferRequest {
+  transfer_id: number;
   batch_id: string;
   from: string;
   to: string;
@@ -68,14 +69,14 @@ const Pending = () => {
       .finally(() => setLoading(false));
   }, []);
 
-  const acceptTransfer = async (batch_id: string) => {
+  const acceptTransfer = async (transferId: number, batch_id: string) => {
     const token = localStorage.getItem("token");
     const email = localStorage.getItem("email");
     const headers = { Authorization: `Bearer ${token}` };
 
     try {
-      const res = await axios.post(
-        "http://localhost:5000/accept_transfer",
+      await axios.post(
+        `http://localhost:5000/accept_transfer/${transferId}`,
         {
           batch_id,
           receiver_email: email,
@@ -89,7 +90,10 @@ const Pending = () => {
       );
 
       toast.success("Transfer accepted successfully");
-      setPendingTransfers((prev) => prev.filter((tx) => tx.batch_id !== batch_id));
+
+      setPendingTransfers((prev) =>
+        prev.filter((tx) => tx.transfer_id !== transferId)
+      );
     } catch (err: any) {
       toast.error(err.response?.data?.error || "Failed to accept transfer request");
     }
@@ -116,9 +120,9 @@ const Pending = () => {
         {pendingTransfers.length === 0 ? (
           <Text>No pending transfer requests</Text>
         ) : (
-          pendingTransfers.map((req, idx) => (
+          pendingTransfers.map((req: TransferRequest, idx: number) => (
             <Box
-              key={idx}
+              key={req.transfer_id}
               p={4}
               borderWidth="1px"
               rounded="md"
@@ -145,7 +149,7 @@ const Pending = () => {
                   <strong>Time:</strong> {new Date(req.timestamp * 1000).toLocaleString()}
                 </Text>
               </Box>
-              <Button colorScheme="green" onClick={() => acceptTransfer(req.batch_id)}>
+              <Button colorScheme="green" onClick={() => acceptTransfer(req.transfer_id, req.batch_id)}>
                 Accept Transfer
               </Button>
             </Box>
