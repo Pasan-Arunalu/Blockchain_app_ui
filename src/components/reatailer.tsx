@@ -3,14 +3,17 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddTransaction from "./addTransaction";
+import Pending from "./pending";
 
 import pending2 from "@/assets/pending(2).png";
 import done from "@/assets/done.png";
+import check from "@/assets/check.png";
 
 interface Transaction {
   batch_id: string;
   product: string;
   to: string;
+  current_owner?: string;
   status: string;
   date: string;
 }
@@ -120,6 +123,42 @@ function Retailer() {
                 Transactions
               </Heading>
             </Box>
+            <Box display={"flex"} justifyContent={"right"} w={"100%"}>
+              <Box h={"100%"} w={"20%"} display={"flex"} alignItems={"center"}>
+                <Dialog.Root size="full" placement="center" motionPreset="slide-in-bottom">
+                  <Dialog.Trigger asChild>
+                    <Button variant={"outline"} h={"70%"} w={"80%"} borderRadius={"20px"} _hover={{ bg: "gray.200" }}>
+                      <Box
+                        h={"100%"}
+                        w={"100%"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        display={"flex"}
+                        gap={3}
+                      >
+                        <Image w={"30%"} src={check}></Image>
+                        <Heading size={"3xl"} color={"black"} textAlign={"left"}>
+                          Accept
+                        </Heading>
+                      </Box>
+                    </Button>
+                  </Dialog.Trigger>
+                  <Portal>
+                    <Dialog.Backdrop />
+                    <Dialog.Positioner>
+                      <Dialog.Content bg="rgba(189, 189, 189, 0.1)" backdropFilter="blur(10px)">
+                        <Box>
+                          <Pending />
+                        </Box>
+                        <Dialog.CloseTrigger asChild>
+                          <CloseButton size="2xl" variant={"outline"} />
+                        </Dialog.CloseTrigger>
+                      </Dialog.Content>
+                    </Dialog.Positioner>
+                  </Portal>
+                </Dialog.Root>
+              </Box>
+            </Box>
           </Box>
           <Box h={"80%"} w={"100%"} p={"1rem"}>
             <Box
@@ -141,7 +180,7 @@ function Retailer() {
                 <Text fontSize="sm">Product</Text>
               </Box>
               <Box w={"20%"}>
-                <Text fontSize="sm">user</Text>
+                <Text fontSize="sm">Current Owner</Text>
               </Box>
               <Box w={"15%"}>
                 <Text fontSize="sm">status</Text>
@@ -183,7 +222,7 @@ function Retailer() {
                     <Text>{tx.product}</Text>
                   </Box>
                   <Box w={"20%"}>
-                    <Text fontSize="sm">{tx.to}</Text>
+                    <Text fontSize="sm">{tx.current_owner || tx.to}</Text>
                   </Box>
                   <Box w={"15%"}>
                     <Text fontSize="sm">{tx.status}</Text>

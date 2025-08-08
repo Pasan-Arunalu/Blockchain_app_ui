@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AddTransaction from "./addTransaction";
 import Transfer from "./transfer";
+import BatchVisualization from "./charts";
 
 import add from "@/assets/add.png";
 import tra from "@/assets/tra.png";
@@ -14,6 +15,7 @@ interface Transaction {
   batch_id: string;
   product: string;
   to: string;
+  current_owner?: string;
   status: string;
   date: string;
 }
@@ -27,6 +29,9 @@ function Farmer() {
   const [userName, setUserName] = useState("");
   const [loading, setLoading] = useState(true);
   const [showForm] = useState(false);
+
+  const [selectedBatchId, setSelectedBatchId] = useState<string | null>(null);
+  const [isChartOpen, setIsChartOpen] = useState<boolean>(false);
 
   //Redirect if not farmer
   useEffect(() => {
@@ -162,7 +167,14 @@ function Farmer() {
                 <Dialog.Root size="full" placement="center" motionPreset="slide-in-bottom">
                   <Dialog.Trigger asChild>
                     <Button variant={"outline"} h={"70%"} w={"80%"} borderRadius={"20px"} _hover={{ bg: "gray.200" }}>
-                      <Box h={"100%"} w={"100%"} alignItems={"center"} justifyContent={"center"} display={"flex"} gap={3}>
+                      <Box
+                        h={"100%"}
+                        w={"100%"}
+                        alignItems={"center"}
+                        justifyContent={"center"}
+                        display={"flex"}
+                        gap={3}
+                      >
                         <Image w={"30%"} src={tra}></Image>
                         <Heading size={"3xl"} color={"black"} textAlign={"left"}>
                           Transfer
@@ -207,7 +219,7 @@ function Farmer() {
                 <Text fontSize="sm">Product</Text>
               </Box>
               <Box w={"20%"}>
-                <Text fontSize="sm">user</Text>
+                <Text fontSize="sm">Current Owner</Text>
               </Box>
               <Box w={"15%"}>
                 <Text fontSize="sm">status</Text>
@@ -236,9 +248,13 @@ function Farmer() {
                   borderWidth="1px"
                   rounded="md"
                   shadow="sm"
-                  _hover={{ shadow: "md", bg: "gray.50" }}
+                  _hover={{ shadow: "md", bg: "gray.50", cursor: "pointer" }}
                   display={"flex"}
                   gap={10}
+                  onClick={() => {
+                    setSelectedBatchId(tx.batch_id);
+                    setIsChartOpen(true);
+                  }}
                 >
                   <Box w={"20%"}>
                     <Text fontWeight={"bold"} fontSize="sm">
@@ -249,7 +265,7 @@ function Farmer() {
                     <Text>{tx.product}</Text>
                   </Box>
                   <Box w={"20%"}>
-                    <Text fontSize="sm">{tx.to}</Text>
+                    <Text fontSize="sm">{tx.current_owner || tx.to}</Text>
                   </Box>
                   <Box w={"15%"}>
                     <Text fontSize="sm">{tx.status}</Text>
@@ -262,6 +278,19 @@ function Farmer() {
                 </Box>
               ))}
             </Stack>
+            <Dialog.Root open={isChartOpen} onOpenChange={(details) => setIsChartOpen(details.open)}>
+              <Portal>
+                <Dialog.Backdrop />
+                <Dialog.Positioner>
+                  <Dialog.Content bg="white" p={4} borderRadius="lg" minW="70%">
+                    {selectedBatchId && <BatchVisualization batchId={selectedBatchId} />}
+                    <Dialog.CloseTrigger asChild>
+                      <CloseButton size="lg" position="absolute" top="4" right="4" />
+                    </Dialog.CloseTrigger>
+                  </Dialog.Content>
+                </Dialog.Positioner>
+              </Portal>
+            </Dialog.Root>
           </Box>
         </Box>
       </Box>

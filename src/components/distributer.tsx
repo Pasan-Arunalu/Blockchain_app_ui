@@ -16,6 +16,7 @@ interface Transaction {
   batch_id: string;
   product: string;
   to: string;
+  current_owner?: string;
   status: string;
   date: string;
 }
@@ -240,7 +241,7 @@ function Distributer() {
                 <Text fontSize="sm">Product</Text>
               </Box>
               <Box w={"20%"}>
-                <Text fontSize="sm">user</Text>
+                <Text fontSize="sm">Current Owner</Text>
               </Box>
               <Box w={"15%"}>
                 <Text fontSize="sm">status</Text>
@@ -282,7 +283,7 @@ function Distributer() {
                     <Text>{tx.product}</Text>
                   </Box>
                   <Box w={"20%"}>
-                    <Text fontSize="sm">{tx.to}</Text>
+                    <Text fontSize="sm">{tx.current_owner || tx.to}</Text>
                   </Box>
                   <Box w={"15%"}>
                     <Text fontSize="sm">{tx.status}</Text>

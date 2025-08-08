@@ -8,6 +8,7 @@ interface Transaction {
   batch_id: string;
   product: string;
   to: string;
+  current_owner?: string;
   status: string;
   date: string;
 }
@@ -37,9 +38,6 @@ const Pending = () => {
     const userName = localStorage.getItem("name")?.toUpperCase();
     setUserName(userName || "");
 
-    if (!token || role?.toLowerCase() !== "distributor") {
-      navigate("/");
-    }
   }, [navigate]);
 
   // Fetch all transaction + stats + pending transfer requests
