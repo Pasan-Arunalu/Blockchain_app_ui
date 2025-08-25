@@ -5,6 +5,7 @@ import axios from "axios";
 import AddTransaction from "./addTransaction";
 import Transfer from "./transfer";
 import BatchVisualization from "./charts";
+import Navbar from "./navbar";
 
 import add from "@/assets/add.png";
 import tra from "@/assets/tra.png";
@@ -37,7 +38,7 @@ function Farmer() {
   useEffect(() => {
     const role = localStorage.getItem("role");
     const token = localStorage.getItem("token");
-    const userName = localStorage.getItem("name")?.toUpperCase();
+    const userName = localStorage.getItem("name");
 
     setUserName(userName || "");
 
@@ -82,10 +83,10 @@ function Farmer() {
         display={"flex"}
         flexDirection={"column"}
         alignItems={"center"}
-        bg={"#ffffffff"}
-        paddingTop={"2rem"}
+        bg={"#F8F9FA"}
         paddingBottom={"2rem"}
       >
+        <Navbar />
         <Box h={"40%"} w={"80%"} display={"flex"}>
           <Box h={"100%"} w={"50%"}>
             <Box h={"50%"} w={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
@@ -144,16 +145,30 @@ function Farmer() {
               <Box h={"100%"} w={"40%"} display={"flex"} alignItems={"center"}>
                 <Dialog.Root size="full" placement="center" motionPreset="slide-in-bottom">
                   <Dialog.Trigger asChild>
-                    <Button variant={"outline"} h={"70%"} w={"70%"} borderRadius={"15px"} _hover={{ bg: "gray.200", scale: "1.05", transition: "1s" }}>
+                    <Button
+                      variant={"outline"}
+                      h={"70%"}
+                      w={"70%"}
+                      borderRadius={"15px"}
+                      _hover={{ bg: "gray.200", scale: "1.05", transition: "1s" }}
+                      bg={"#C5E1C5"}
+                    >
                       <Box
                         h={"100%"}
                         w={"100%"}
                         alignItems={"center"}
                         justifyContent={"center"}
                         display={"flex"}
-                        flexDirection={"column"}                 
+                        flexDirection={"column"}
+                        
                       >
-                        <Box h={"70%"} alignItems={"center"} justifyContent={"center"} display={"flex"} marginRight={"1rem"}>
+                        <Box
+                          h={"70%"}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                          display={"flex"}
+                          marginRight={"1rem"}
+                        >
                           <Image w={"50%"} src={add}></Image>
                           <Heading size={"3xl"} color={"black"} textAlign={"left"}>
                             Add
@@ -185,14 +200,21 @@ function Farmer() {
               <Box h={"100%"} w={"40%"} display={"flex"} alignItems={"center"}>
                 <Dialog.Root size="full" placement="center" motionPreset="slide-in-bottom">
                   <Dialog.Trigger asChild>
-                    <Button variant={"outline"} h={"70%"} w={"80%"} borderRadius={"15px"} _hover={{ bg: "gray.200", scale: "1.05", transition: "1s" }}>
+                    <Button
+                      variant={"outline"}
+                      h={"70%"}
+                      w={"80%"}
+                      borderRadius={"15px"}
+                      _hover={{ bg: "gray.200", scale: "1.05", transition: "1s" }}
+                      bg={"#E8C1E1"}
+                    >
                       <Box
                         h={"100%"}
                         w={"100%"}
                         alignItems={"center"}
                         justifyContent={"center"}
                         display={"flex"}
-                        flexDirection={"column"}                 
+                        flexDirection={"column"}
                       >
                         <Box h={"70%"} alignItems={"center"} justifyContent={"center"} display={"flex"} gap={3}>
                           <Image w={"40%"} src={tra}></Image>
@@ -226,7 +248,7 @@ function Farmer() {
             </Box>
           </Box>
         </Box>
-        <Box h={"60%"} w={"80%"} marginTop={"2rem"} bg={"#d3d3d3ff"} p={"2rem"} borderRadius={"10px"}>
+        <Box h={"60%"} w={"80%"} marginTop={"2rem"} bg={"#C2D5E1"} p={"2rem"} borderRadius={"10px"}>
           <Box h={"15%"} w={"100%"} display={"flex"}>
             <Box alignContent={"center"}>
               <Heading alignSelf={"center"} size={"4xl"} color={"black"}>
@@ -271,19 +293,18 @@ function Farmer() {
               </Box>
             </Box>
             <Stack
-              h={"85%"}
               w={"100%"}
               color="black"
               gap={4}
-              overflow={"scroll"}
-              overflowX={"hidden"}
-              overflowY={"hidden"}
+              maxH="85%" 
+              overflowY="auto"
+              overflowX="hidden"
             >
               {transactions.map((tx, index) => (
                 <Box
                   display={"flex"}
                   w={"100%"}
-                  h={"25%"}
+                  minH="5rem" 
                   alignItems={"center"}
                   paddingLeft={"3rem"}
                   rounded="md"

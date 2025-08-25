@@ -26,6 +26,7 @@ import tra from "@/assets/tra.png";
 import done from "@/assets/done.png";
 import pending from "@/assets/pending.png";
 import check from "@/assets/check.png";
+import Navbar from "./navbar";
 
 interface Transaction {
   batch_id: string;
@@ -52,7 +53,7 @@ function Distributer() {
   useEffect(() => {
     const role = localStorage.getItem("role");
     const token = localStorage.getItem("token");
-    const userName = localStorage.getItem("name")?.toUpperCase();
+    const userName = localStorage.getItem("name");
 
     setUserName(userName || "");
 
@@ -98,9 +99,9 @@ function Distributer() {
         flexDirection={"column"}
         alignItems={"center"}
         bg={"#ffffffff"}
-        paddingTop={"2rem"}
         paddingBottom={"2rem"}
       >
+        <Navbar />
         <Box h={"40%"} w={"80%"} display={"flex"}>
           <Box h={"100%"} w={"50%"}>
             <Box h={"50%"} w={"100%"} display={"flex"} flexDirection={"column"} justifyContent={"center"}>
@@ -183,6 +184,7 @@ function Distributer() {
                       w={"70%"}
                       borderRadius={"15px"}
                       _hover={{ bg: "gray.200", scale: "1.05", transition: "1s" }}
+                      bg={"#C5E1C5"}
                     >
                       <Box
                         h={"100%"}
@@ -242,6 +244,7 @@ function Distributer() {
                       w={"80%"}
                       borderRadius={"15px"}
                       _hover={{ bg: "gray.200", scale: "1.05", transition: "1s" }}
+                      bg={"#E8C1E1"}
                     >
                       <Box
                         h={"100%"}
@@ -283,7 +286,7 @@ function Distributer() {
             </Box>
           </Box>
         </Box>
-        <Box h={"60%"} w={"80%"} marginTop={"2rem"} bg={"#d3d3d3ff"} p={"2rem"} borderRadius={"10px"}>
+        <Box h={"60%"} w={"80%"} marginTop={"2rem"} bg={"#C2D5E1"} p={"2rem"} borderRadius={"10px"}>
           <Box h={"15%"} w={"100%"} display={"flex"}>
             <Box alignContent={"center"}>
               <Heading alignSelf={"center"} size={"4xl"} color={"black"}>
@@ -328,19 +331,18 @@ function Distributer() {
               </Box>
             </Box>
             <Stack
-              h={"85%"}
               w={"100%"}
               color="black"
               gap={4}
-              overflow={"scroll"}
-              overflowX={"hidden"}
-              overflowY={"hidden"}
+              maxH="85%" 
+              overflowY="auto"
+              overflowX="hidden"
             >
               {transactions.map((tx, index) => (
                 <Box
                   display={"flex"}
                   w={"100%"}
-                  h={"25%"}
+                  minH="5rem" 
                   alignItems={"center"}
                   paddingLeft={"3rem"}
                   rounded="md"
